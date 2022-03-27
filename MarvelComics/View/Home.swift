@@ -9,6 +9,7 @@ import SwiftUI
 
 struct Home: View {
     @StateObject var dataSource = ContentDataSource()
+    @StateObject var searchDataSource = SearchDataSource()
 
     var body: some View {
         
@@ -22,6 +23,13 @@ struct Home: View {
                 // setting Environment Object
                 // so that we can access data on character View...
                 .environmentObject(dataSource)
+            
+            ComicsSearchView()
+                .tabItem {
+                    Image(systemName: "magnifyingglass")
+                    Text("Search")
+                }
+                .environmentObject(searchDataSource)
             
             // Favorites View
             Text("Favorites")

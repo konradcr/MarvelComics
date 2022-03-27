@@ -41,7 +41,8 @@ class ContentDataSource: ObservableObject {
         isLoadingComics = true
         
         let ts = String(Date().timeIntervalSince1970)
-        let hash = MD5(data: "\(ts)\(privateKey)\(publicKey)")
+        let stringToHash = ts + privateKey + publicKey
+        let hash = stringToHash.MD5
         
         let url = URL(string: "https://gateway.marvel.com:443/v1/public/comics?limit=100&offset=\(offset)&ts=\(ts)&apikey=\(publicKey)&hash=\(hash)")!
         URLSession.shared.dataTaskPublisher(for: url)
@@ -62,17 +63,5 @@ class ContentDataSource: ObservableObject {
             .removeDuplicates()
             .catch({ _ in Just(self.comics) })
             .assign(to: &$comics)
-                    
-    }
-    
-    
-    func MD5(data: String)->String {
-        
-        let hash = Insecure.MD5.hash(data: data.data(using: .utf8) ?? Data())
-        
-        return hash.map{
-            String(format: "%02hhx", $0)
-        }
-        .joined()
     }
 }

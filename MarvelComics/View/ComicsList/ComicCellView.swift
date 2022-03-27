@@ -29,7 +29,6 @@ struct ComicCellView: View {
                             .resizable()
                             .aspectRatio(contentMode: .fill)
                     }
-                    
                 } placeholder: {
                     Color.gray
                 }
