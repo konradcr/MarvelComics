@@ -1,8 +1,8 @@
 //
 //  WebView.swift
-//  Marvel API
+//  Marvel Comics
 //
-//  Created by Balaji on 14/03/21.
+//  Created by Konrad Cureau on 26/03/2022.
 //
 
 import SwiftUI

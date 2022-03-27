@@ -26,11 +26,13 @@ struct ComicsListView: View {
                                 .navigationBarTitleDisplayMode(.inline)
                         } label: {
                             ComicCellView(comic: comic)
+                                .padding()
                                 .onAppear {
                                     dataSource.loadMoreContentIfNeeded(currentItem: comic)
                                 }
-                                .padding()
+                                
                         }
+                        .buttonStyle(.plain)
                     }
                 }
                 if dataSource.isLoadingComics {
