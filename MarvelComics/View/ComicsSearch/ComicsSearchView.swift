@@ -23,7 +23,13 @@ struct ComicsSearchView: View {
                     } else {
                         // Displaying results....
                         ForEach(comics){ comic in
-                            ComicsSearchCellView(comic: comic)
+                            NavigationLink {
+                                ComicDetailView(comic: comic)
+                                    .navigationTitle(comic.title)
+                                    .navigationBarTitleDisplayMode(.inline)
+                            } label: {
+                                ComicsSearchCellView(comic: comic)
+                            }
                         }
                     }
                 } else {
