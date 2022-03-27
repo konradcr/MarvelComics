@@ -8,12 +8,12 @@
 import SwiftUI
 
 struct ComicsSearchView: View {
-    @EnvironmentObject var searchDataSource: SearchDataSource
+    @EnvironmentObject var dataSource: ContentDataSource
 
     var body: some View {
         NavigationView {
             List {
-                if let comics = searchDataSource.fetchedComics {
+                if let comics = dataSource.searchedComics {
                     
                     if comics.isEmpty{
                         // No results...
@@ -22,7 +22,7 @@ struct ComicsSearchView: View {
                         
                     } else {
                         // Displaying results....
-                        ForEach(comics){ comic in
+                        ForEach(comics) { comic in
                             NavigationLink {
                                 ComicDetailView(comic: comic)
                                     .navigationTitle(comic.title)
@@ -33,7 +33,7 @@ struct ComicsSearchView: View {
                         }
                     }
                 } else {
-                    if searchDataSource.searchQuery != "" {
+                    if dataSource.searchQuery != "" {
                         // Loading Screem...
                         HStack() {
                             Spacer()
@@ -44,7 +44,7 @@ struct ComicsSearchView: View {
                     }
                 }
             }
-            .searchable(text: $searchDataSource.searchQuery, prompt: "Search a comic by title...")
+            .searchable(text: $dataSource.searchQuery, prompt: "Search a comic by title...")
             .navigationTitle("Search Comic")
         }
     }

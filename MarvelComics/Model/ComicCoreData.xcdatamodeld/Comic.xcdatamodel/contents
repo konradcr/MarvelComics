@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="20086" systemVersion="21E230" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="ComicCoreData" representedClassName="ComicCoreData" syncable="YES">
+        <attribute name="comicDescription" optional="YES" attributeType="String"/>
+        <attribute name="id" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="image" optional="YES" attributeType="String"/>
+        <attribute name="pageCount" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="title" optional="YES" attributeType="String"/>
+        <relationship name="creators" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="CreatorCoreData" inverseName="comic" inverseEntity="CreatorCoreData"/>
+    </entity>
+    <entity name="CreatorCoreData" representedClassName="CreatorCoreData" syncable="YES">
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="role" optional="YES" attributeType="String"/>
+        <relationship name="comic" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ComicCoreData" inverseName="creators" inverseEntity="ComicCoreData"/>
+    </entity>
+    <elements>
+        <element name="ComicCoreData" positionX="-324.69921875" positionY="24.17825317382812" width="128" height="133"/>
+        <element name="CreatorCoreData" positionX="-54" positionY="27" width="128" height="88"/>
+    </elements>
+</model>

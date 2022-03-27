@@ -8,8 +8,15 @@
 import SwiftUI
 
 struct ContentView: View {
+    // ViewModel
+    @StateObject var dataSource = ContentDataSource()
+    
     var body: some View {
         Home()
+            // Set dataModel into the env
+            .environmentObject(dataSource)
+            // Set Core Data context into the env
+            .environment(\.managedObjectContext, dataSource.container.viewContext)
     }
 }
 

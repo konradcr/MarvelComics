@@ -30,7 +30,6 @@ struct ComicsListView: View {
                                 .onAppear {
                                     dataSource.loadMoreContentIfNeeded(currentItem: comic)
                                 }
-                                
                         }
                         .buttonStyle(.plain)
                     }

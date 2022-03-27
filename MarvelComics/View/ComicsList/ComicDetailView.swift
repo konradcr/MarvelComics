@@ -8,33 +8,47 @@
 import SwiftUI
 
 struct ComicDetailView: View {
+    @Environment(\.managedObjectContext) var moc
+    @EnvironmentObject var dataSource: ContentDataSource
+    
     let comic: Comic
     
     var body: some View {
         ScrollView {
             VStack {
-                ComicImageView(comic: comic)
                 
-                ComicTitleView(comic: comic)
+                ComicImageView(imageURL: comic.extractImage())
+                
+                ComicTitleView(title: comic.title)
                 
                 ComicCreatorsView(comic: comic)
                 
-                ComicDescriptionView(comic: comic)
+                ComicDescriptionView(description: comic.description)
                 
-                ComicPagesView(comic: comic)
+                ComicPagesView(pageCount: comic.pageCount)
                 
-                ComicRessourcesView(comic: comic)
+                ComicRessourcesView(urls: comic.urls)
             }
             .padding(.horizontal)
+        }
+        .toolbar {
+            ToolbarItem {
+                Button {
+                    try? dataSource.addToFav(comic)
+                } label: {
+                    Image(systemName: "star.fill")
+                        .foregroundColor(Color.yellow)
+                }
+            }
         }
     }
 }
 
 struct ComicTitleView: View {
-    let comic: Comic
+    let title: String
     
     var body: some View {
-        Text(comic.title)
+        Text(title)
             .font(.title2)
             .bold()
             .multilineTextAlignment(.center)
@@ -42,10 +56,10 @@ struct ComicTitleView: View {
 }
 
 struct ComicImageView: View {
-    let comic: Comic
+    let imageURL: URL
     
     var body: some View {
-        AsyncImage(url: comic.extractImage()) { image in
+        AsyncImage(url: imageURL) { image in
             VStack {
                 image
                     .resizable()
@@ -63,10 +77,10 @@ struct ComicImageView: View {
 }
 
 struct ComicDescriptionView: View {
-    let comic: Comic
+    let description: String?
     
     var body: some View {
-        if let description = comic.description {
+        if let description = description {
             if !description.isEmpty {
                 VStack(alignment: .leading) {
                     HStack {
@@ -99,7 +113,7 @@ struct ComicCreatorsView: View {
 }
 
 struct ComicPagesView: View {
-    let comic: Comic
+    let pageCount: Int
     
     var body: some View {
         HStack {
@@ -107,14 +121,14 @@ struct ComicPagesView: View {
             Text("Number of pages :")
                 .bold()
             Spacer()
-            Text("\(comic.pageCount)")
+            Text("\(pageCount)")
         }
         
     }
 }
 
 struct ComicRessourcesView: View {
-    let comic: Comic
+    let urls: [[String : String]]
     
     var body: some View {
         VStack {
@@ -124,7 +138,7 @@ struct ComicRessourcesView: View {
                     .bold()
                 Spacer()
             }
-            ForEach(comic.urls, id: \.self) { data in
+            ForEach(urls, id: \.self) { data in
                 NavigationLink(
                     destination: WebView(url: URL(string: data["url"] ?? "")!)
                         .navigationTitle(data["type"]?.capitalized ?? ""),
